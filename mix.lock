@@ -1,0 +1,8 @@
+%{"bus": {:hex, :bus, "0.1.3", "45bb0d25b85aeee61672a2ea221f112327e6622268617bce6ef433d2026f624f", [:mix], []},
+  "elixir_make": {:hex, :elixir_make, "0.3.0", "285147fa943806eee82f6680b7b446b5569bcf3ee8328fa0a7c200ffc44fbaba", [:mix], []},
+  "gen_stage": {:hex, :gen_stage, "0.5.0", "758068f3a81286e342a609d668e9624714c2e4d43cc26699ead04d1680fde6c6", [:mix], []},
+  "httpotion": {:hex, :httpotion, "3.0.1", "6165e7fe4052dfeadd4b480e4ed6619975242ac91d577e4868af92613f9e99df", [:mix], [{:ibrowse, "~> 4.2", [hex: :ibrowse, optional: false]}]},
+  "hulaaki": {:hex, :hulaaki, "0.0.4", "be9b579573ef33138433fc4052ef9b4c04799f5a7f067b551c64ee813da01d3e", [:mix], []},
+  "ibrowse": {:hex, :ibrowse, "4.2.2", "b32b5bafcc77b7277eff030ed32e1acc3f610c64e9f6aea19822abcadf681b4b", [:rebar3], []},
+  "nerves_uart": {:hex, :nerves_uart, "0.1.0", "e5358d467c3022e568bd5a41adc9aa5f231d1ae825c9883dd87322e6f38398ea", [:mix, :make], [{:elixir_make, "~> 0.3", [hex: :elixir_make, optional: false]}]},
+  "poison": {:hex, :poison, "2.2.0", "4763b69a8a77bd77d26f477d196428b741261a761257ff1cf92753a0d4d24a63", [:mix], []}}
