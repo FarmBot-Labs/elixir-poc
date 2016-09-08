@@ -1,5 +1,6 @@
 alias Experimental.{GenStage}
 defmodule MqttMessageHandler do
+  @uuid Application.get_env(:mqtt, :uuid)
   require IEx
   @moduledoc """
     This is the 'consumer'. It subscribes to MqttMessageManager, and just grabs
@@ -41,7 +42,7 @@ defmodule MqttMessageHandler do
 
   # Successful connection event. Subscribe to our bot.
   defp do_handle_event({:on_connect, _data}) do
-    Bus.Mqtt.subscribe(["bot/58bea198-2468-4fee-9e91-1ef0b202fae1/request"], [1])
+    Bus.Mqtt.subscribe(["bot/#{uuid}/request"], [1])
   end
 
   # No real reason to print this but hey-oh

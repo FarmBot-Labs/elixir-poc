@@ -1,12 +1,13 @@
 alias Experimental.{GenStage}
 defmodule MqttSupervisor do
+  @uuid Application.get_env(:mqtt, :uuid)
   @moduledoc """
     The main application for handling MQTT messages
   """
   def start do
     import Supervisor.Spec
     {:ok, _pid} = Bus.start(:normal, [])
-    Bus.Mqtt.subscribe(["bot/58bea198-2468-4fee-9e91-1ef0b202fae1/request"], [1])
+    Bus.Mqtt.subscribe(["bot/#{uuid}/request"], [1])
     children = [
       # Should only be one of these
       worker(MqttMessageManager, []),
