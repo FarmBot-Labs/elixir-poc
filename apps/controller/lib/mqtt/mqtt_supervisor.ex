@@ -1,4 +1,3 @@
-alias Experimental.{GenStage}
 defmodule MqttSupervisor do
   @uuid Application.get_env(:mqtt, :uuid)
   @moduledoc """
@@ -7,7 +6,7 @@ defmodule MqttSupervisor do
   def start do
     import Supervisor.Spec
     {:ok, _pid} = Bus.start(:normal, [])
-    Bus.Mqtt.subscribe(["bot/#{uuid}/request"], [1])
+    Bus.Mqtt.subscribe(["bot/#{@uuid}/request"], [1])
     children = [
       # Should only be one of these
       worker(MqttMessageManager, []),

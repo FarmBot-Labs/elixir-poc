@@ -1,6 +1,6 @@
-defmodule SerialHandlerTest do
+defmodule ControllerTest do
   use ExUnit.Case
-  doctest SerialHandler
+  doctest Controller
 
   test "the truth" do
     assert 1 + 1 == 2

@@ -34,7 +34,7 @@ defmodule MqttMessageHandler do
 
   # This bot has received a message.
   # Will probably get broken out to another GenEvent for serial events?
-  defp do_handle_event({:on_message_received, topic, umessage}) do
+  defp do_handle_event({:on_message_received, _topic, umessage}) do
     message = Poison.decode!(umessage)
     # Logger.debug "#{inspect(%{topic: topic, message: message})}"
     handle_serial({Map.get(message, "method"), Map.get(message, "params")})
@@ -42,7 +42,7 @@ defmodule MqttMessageHandler do
 
   # Successful connection event. Subscribe to our bot.
   defp do_handle_event({:on_connect, _data}) do
-    Bus.Mqtt.subscribe(["bot/#{uuid}/request"], [1])
+    Bus.Mqtt.subscribe(["bot/#{@uuid}/request"], [1])
   end
 
   # No real reason to print this but hey-oh
@@ -52,7 +52,7 @@ defmodule MqttMessageHandler do
 
   # Stub af. Thanks Elixir
   defp do_handle_event(event) do
-    Logger.debug "UNHANDLED EVENT"
+    Logger.debug "UNHANDLED MQTT EVENT"
     IO.inspect(event)
   end
 
@@ -63,10 +63,55 @@ defmodule MqttMessageHandler do
 
   end
 
-  defp handle_serial({"single_command.MOVE RELATIVE", params}) do
-    Logger.debug("MOVE RELATIVE : #{inspect params}")
+  # MOVE RELATIVE X
+  defp handle_serial({"single_command.MOVE RELATIVE",
+                            %{"name" => "moveRelative",
+                              "speed" => speed,
+                              "x" => x } }) do
+    Logger.debug("MOVE RELATIVE X: #{x} SPEED: #{speed}")
+    SerialHandler.move_relative({:x, x}, speed)
   end
 
+  # MOVE RELATIVE Y
+  defp handle_serial({"single_command.MOVE RELATIVE",
+                            %{"name" => "moveRelative",
+                              "speed" => speed,
+                              "y" => y } } ) do
+    Logger.debug("MOVE RELATIVE Y #{y} SPEED: #{speed}")
+    SerialHandler.move_relative({:y, y}, speed)
+  end
+
+  # MOVE RELATIVE Z
+  defp handle_serial({"single_command.MOVE RELATIVE",
+                            %{"name" => "moveRelative",
+                              "speed" => speed,
+                              "z" => z } }) do
+    Logger.debug("MOVE RELATIVE Z: #{z} SPEED: #{speed}")
+    SerialHandler.move_relative({:z, z}, speed)
+  end
+
+  # Possibly broke move relative command?
+  defp handle_serial({"single_command.MOVE RELATIVE", params}) do
+    Logger.debug("[broken?] MOVE RELATIVE : #{inspect params}")
+  end
+
+  defp handle_serial({"single_command.MOVE ABSOLUTE", params}) do
+    Logger.debug("MOVE ABSOLUTE : #{inspect params}")
+    # %{"speed" => 100, "x" => 5000, "y" => 192000, "z" => -13000}
+    x = Map.get(params, "x")
+    y = Map.get(params, "y")
+    z = Map.get(params, "z")
+    s = Map.get(params, "speed")
+    SerialHandler.move_absolute(x,y,z,s)
+  end
+
+  # HOME ALL
+  defp handle_serial({"single_command.HOME ALL", params}) do
+    Logger.debug("HOME ALL : #{inspect params}")
+    SerialHandler.home_all
+  end
+
+  # UNHANDLED SERIAL COMMAND
   defp handle_serial({method, params}) do
     Logger.debug("Unknown method: #{inspect method} with params: #{inspect params}")
   end

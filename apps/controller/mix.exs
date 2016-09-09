@@ -1,8 +1,8 @@
-defmodule SerialHandler.Mixfile do
+defmodule Controller.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :rpi_controller,
+    [app: :controller,
      version: "0.1.0",
      build_path: "../../_build",
      config_path: "../../config/config.exs",
@@ -15,7 +15,8 @@ defmodule SerialHandler.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :nerves_uart, :httpotion, :poison, :gen_stage]]
+    [mod: {Controller, []},
+      applications: [:logger, :nerves_uart, :httpotion, :poison, :gen_stage]]
   end
 
   defp deps do
