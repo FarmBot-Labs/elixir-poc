@@ -6,6 +6,7 @@ defmodule Controller do
     import Supervisor.Spec, warn: false
 
     children = [
+      worker(BotStatus, [[]]),
       supervisor(MqttSupervisor, [[]]),
       supervisor(SerialSupervisor, [[]]),
       supervisor(CommandSupervisor, [[]])

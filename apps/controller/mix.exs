@@ -24,6 +24,7 @@ defmodule Controller.Mixfile do
      {:httpotion, "~> 3.0.0"},
      {:poison, "~> 2.0"},
      {:bus, "~> 0.1.0"},
-     {:gen_stage, "~> 0.4"}]
+     {:gen_stage, "~> 0.4"},
+     {:yaml_elixir, "~> 1.2.1"}]
   end
 end

@@ -4,8 +4,20 @@ defmodule Command do
     Big pattern matches r big
   """
 
+  @doc """
+    Writes a pin high or low
+  """
   def write_pin(pin, value, mode) do
+    Logger.info("WRITE_PIN " <> "F41 P#{pin} V#{value} M#{mode}")
     SerialMessageManager.sync_notify( {:send, "F41 P#{pin} V#{value} M#{mode}"} )
+  end
+
+  @doc """
+    Moves to (x,y,z) point
+  """
+  def move_absolute(x, y, z, _s) when x >= 0 and y >= 0 do
+    Logger.info("MOVE_ABSOLUTE " <> "G00 X#{x} Y#{y} Z#{z}")
+    SerialMessageManager.sync_notify( {:send, "G00 X#{x} Y#{y} Z#{z}"} )
   end
 
   # MOVE RELATIVE X

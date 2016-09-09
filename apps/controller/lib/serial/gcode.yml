@@ -1,0 +1,47 @@
+# This is a dictionary of all the GCodes. They are used by the Arduino to
+# differentiate commands.
+---
+:G0:  :move_to_location_at_given_speed_for_axis
+:G1:  :move_to_location_on_a_straight_line
+:G28: :move_home_all_axis
+:F1:  :dose_amount_of_water_using_time_in_millisecond
+:F2:  :dose_amount_of_water_using_flow_meter_that_measures_pulses
+:F11: :home_x_axis
+:F12: :home_y_axis
+:F13: :home_z_axis
+:F14: :calibrate_x_axis
+:F15: :calibrate_y_axis
+:F16: :calibrate_z_axis
+:F21: :read_parameter
+:F22: :write_parameter
+:F23: :update_parameter_during_calibration
+:F31: :read_status
+:F32: :write_status
+:F41: :set_a_value_on_an_arduino_pin
+:F42: :read_a_value_from_an_arduino_pin
+:F43: :set_the_mode_of_a_pin_in_arduino
+:F44: :set_the_value_v_on_an_arduino_pin
+:F51: :set_a_value_on_the_tool_mount_with_i2c
+:F52: :read_value_from_the_tool_mount_with_i2c
+:F61: :set_the_servo_on_the_pin_to_the_requested_angle
+:F81: :report_end_stop
+:F82: :report_current_position
+:F83: :report_software_version
+:E:   :emergency_stop
+:R0: :idle
+:R1: :received
+:R2: :done
+:R3: :error
+:R4: :busy
+:R00: :idle
+:R01: :received
+:R02: :done
+:R03: :error
+:R04: :busy
+:R21: :report_parameter_value
+:R31: :report_status_value
+:R41: :report_pin_value
+:R81: :reporting_end_stops
+:R82: :report_current_position
+:R83: :report_software_version
+:R99: :debug_message

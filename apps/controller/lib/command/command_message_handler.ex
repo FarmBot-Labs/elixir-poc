@@ -24,6 +24,10 @@ defmodule CommandMessageHandler do
     Command.write_pin(p,v,m)
   end
 
+  def do_handle({"single_command.MOVE ABSOLUTE", %{"speed" => s, "x" => x, "y" => y, "z" => z}}) do
+    Command.move_absolute(x,y,z,s)
+  end
+
   def do_handle(event) do
     Logger.debug("Unhandled Event: #{inspect event}")
   end

@@ -44,13 +44,19 @@ defmodule UartHandler do
     {:noreply, state}
   end
 
+  # WHEN A FULL SERIAL MESSAGE COMES IN.
   def handle_info({:nerves_uart, _tty, message}, state) do
-    SerialMessageManager.sync_notify({:serial_message, message})
+    SerialMessageManager.sync_notify({:serial_message, Gcode.parse_code(String.strip(message))})
     {:noreply, state}
   end
 
   def handle_info(event, state) do
     Logger.debug "info: #{inspect event}"
     {:noreply, state}
+  end
+
+  def terminate(reason, other) do
+    Logger.debug("UART HANDLER CRASHED. Trying to restart?")
+    Logger.debug("#{inspect reason}: #{inspect other}")
   end
 end

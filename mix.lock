@@ -5,4 +5,6 @@
   "hulaaki": {:hex, :hulaaki, "0.0.4", "be9b579573ef33138433fc4052ef9b4c04799f5a7f067b551c64ee813da01d3e", [:mix], []},
   "ibrowse": {:hex, :ibrowse, "4.2.2", "b32b5bafcc77b7277eff030ed32e1acc3f610c64e9f6aea19822abcadf681b4b", [:rebar3], []},
   "nerves_uart": {:hex, :nerves_uart, "0.1.0", "e5358d467c3022e568bd5a41adc9aa5f231d1ae825c9883dd87322e6f38398ea", [:mix, :make], [{:elixir_make, "~> 0.3", [hex: :elixir_make, optional: false]}]},
-  "poison": {:hex, :poison, "2.2.0", "4763b69a8a77bd77d26f477d196428b741261a761257ff1cf92753a0d4d24a63", [:mix], []}}
+  "poison": {:hex, :poison, "2.2.0", "4763b69a8a77bd77d26f477d196428b741261a761257ff1cf92753a0d4d24a63", [:mix], []},
+  "yamerl": {:hex, :yamerl, "0.3.2", "9eac1537d251e926f47763ab1db0d9e6e8f2397646c290d58aa6ceebc6832fb7", [:rebar3], []},
+  "yaml_elixir": {:hex, :yaml_elixir, "1.2.1", "4a8ee3b25598100c710ff11dde4d79b6335608ac092d69aab45cc7475b5abc4d", [:mix], [{:yamerl, "~> 0.3.2", [hex: :yamerl, optional: false]}]}}

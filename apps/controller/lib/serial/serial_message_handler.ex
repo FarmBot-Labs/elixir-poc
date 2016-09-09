@@ -1,6 +1,5 @@
 alias Experimental.{GenStage}
 defmodule SerialMessageHandler do
-  @uuid Application.get_env(:mqtt, :uuid)
   require IEx
   use GenStage
   require Logger
@@ -24,11 +23,24 @@ defmodule SerialMessageHandler do
     GenServer.cast(UartHandler, {:send, str})
   end
 
-  def do_handle({:serial_message, "R00"}) do
-    # Logger.debug("Heartbeat")
+  def do_handle({:serial_message, {:idle} }) do
+    BotStatus.busy false
+  end
+
+  def do_handle({:serial_message, {:done } }) do
+    BotStatus.busy false
+  end
+
+  def do_handle({:serial_message, {:received } }) do
+    BotStatus.busy true
+  end
+
+  # Unhandled gcode message
+  def do_handle({:serial_message, {:unhandled_gcode, code}}) do
+    Logger.debug("Broken code? : #{inspect code}")
   end
 
   def do_handle({:serial_message, message}) do
-    Logger.debug("Unhandled Serial Message/Gcode: #{inspect message}")
+    Logger.debug("Unhandled Serial Gcode: #{inspect message}")
   end
 end
