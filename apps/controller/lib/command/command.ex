@@ -1,4 +1,5 @@
 defmodule Command do
+  require Logger
   @moduledoc """
     Big pattern matches r big
   """

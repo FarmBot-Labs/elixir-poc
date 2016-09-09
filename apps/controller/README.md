@@ -1,6 +1,6 @@
 # Controller
 
-**TODO: Add description**
+VERY MUCH A WORK IN PROGRESS/ PROOF OF CONCEPT IF YOU MANAGE TO FIND IT, PLS. IT IS NOT READY
 
 ## Installation
 
@@ -21,4 +21,3 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
       [applications: [:controller]]
     end
     ```
-
