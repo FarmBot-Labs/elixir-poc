@@ -4,10 +4,11 @@ defmodule Controller do
 
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
-    
+
     children = [
       supervisor(MqttSupervisor, [[]]),
-      supervisor(SerialSupervisor, [[]])
+      supervisor(SerialSupervisor, [[]]),
+      supervisor(CommandSupervisor, [[]])
     ]
     opts = [strategy: :one_for_one, name: Controller.Supervisor]
     Supervisor.start_link(children, opts)

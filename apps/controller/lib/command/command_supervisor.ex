@@ -1,10 +1,9 @@
-defmodule SerialSupervisor do
+defmodule CommandSupervisor do
   def start_link(_args) do
     import Supervisor.Spec
     children = [
-      worker(SerialMessageManager, []),
-      worker(SerialMessageHandler, [], id: 1), # Consumer
-      worker(UartHandler, [[]])
+      worker(CommandMessageManager, []),
+      worker(CommandMessageHandler, [], id: 1)
     ]
     Supervisor.start_link(children, strategy: :one_for_one)
   end
