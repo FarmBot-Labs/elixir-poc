@@ -1,19 +1,13 @@
 alias Experimental.{GenStage}
 
-defmodule MqttMessageManager do
+defmodule SerialMessageManager do
   use GenStage
-  @moduledoc """
-    The only purpose of this  module is to direct Mqtt Message Traffic.
-  """
-
   def start_link() do
     GenStage.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
   @doc """
-    This is the front facing function.
-    ie:
-    iex(1)> MqttMessageManager.sync_notify({:on_subscribe, %{hello: world}})
+    New Serial message
   """
   def sync_notify(event, timeout \\ 5000) do
     GenStage.call(__MODULE__, {:notify, event}, timeout)

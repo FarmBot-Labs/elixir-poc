@@ -1,4 +1,4 @@
-defmodule MqttSupervisor do
+defmodule SerialSupervisor do
   @uuid Application.get_env(:mqtt, :uuid)
   @moduledoc """
     The main application for handling MQTT messages
@@ -6,10 +6,10 @@ defmodule MqttSupervisor do
   def start_link(_args) do
     import Supervisor.Spec
     children = [
-      worker(MqttMessageManager, []),
-      worker(MqttMessageHandler, [], id: 1)
+      worker(SerialMessageManager, []),
+      worker(SerialMessageHandler, [], id: 1), # Consumer
+      worker(UartHandler, [[]])
     ]
-
     Supervisor.start_link(children, strategy: :one_for_one)
   end
 

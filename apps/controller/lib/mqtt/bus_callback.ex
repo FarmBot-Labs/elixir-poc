@@ -1,6 +1,6 @@
 defmodule Bus.Callback do
   @moduledoc """
-    This is just a redine of the callback module (Thanks Bus for being a normal
+    This is just a redefine of the callback module (Thanks Bus for being a normal
     Elixir application..)
     The functions are pretty self explanatory. they just forward the message
     into the genserver for Async action yo.

@@ -16,7 +16,7 @@ defmodule Controller.Mixfile do
 
   def application do
     [mod: {Controller, []},
-      applications: [:logger, :nerves_uart, :httpotion, :poison, :gen_stage]]
+      applications: [:logger, :nerves_uart, :httpotion, :poison, :gen_stage, :bus]]
   end
 
   defp deps do
