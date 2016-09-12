@@ -12,6 +12,8 @@ defmodule Controller do
       supervisor(SequenceSupervisor, [[]])
     ]
     opts = [strategy: :one_for_one, name: Controller.Supervisor]
-    Supervisor.start_link(children, opts)
+    {:ok, sup} = Supervisor.start_link(children, opts)
+    {:ok, bus} = Bus.start(:a,:b)
+    {:ok, sup}
   end
 end

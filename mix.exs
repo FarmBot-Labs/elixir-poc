@@ -1,26 +1,31 @@
-defmodule FarmbotOsAgain.Mixfile do
+defmodule Controller.Mixfile do
   use Mix.Project
 
   def project do
-    [apps_path: "apps",
+    [app: :controller,
+     version: "0.1.0",
+     build_path: "_build",
+     config_path: "config/config.exs",
+     deps_path: "deps",
+     lockfile: "mix.lock",
+     elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options.
-  #
-  # Dependencies listed here are available only for this project
-  # and cannot be accessed from applications inside the apps folder
+  def application do
+    [mod: {Controller, []},
+      applications: [:logger, :nerves_uart, :httpotion, :poison, :gen_stage, :nerves_lib]]
+  end
+
   defp deps do
-    []
+    [{:nerves_uart, "~> 0.1.0"},
+     {:httpotion, "~> 3.0.0"},
+     {:poison, "~> 2.0"},
+    #  {:bus, "~> 0.1.0"},
+     {:bus, github: "i-m-v-j/Bus", tag: "47dfdad3653841346b1f43c02ed3235a091f5686"},
+     {:gen_stage, "~> 0.4"},
+     {:nerves_lib, github: "nerves-project/nerves_lib"}]
   end
 end
