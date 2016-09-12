@@ -1,11 +1,11 @@
 defmodule UartHandler do
   require Logger
+  @tty Application.get_env(:uart, :tty)
+  @baud Application.get_env(:uart, :baud)
   def init(_) do
-    tty = "/dev/ttyACM0"
-    baud = 115200
     active = true
     {:ok, pid} = Nerves.UART.start_link
-    Nerves.UART.open(pid, tty, speed: baud, active: active)
+    Nerves.UART.open(pid, @tty, speed: @baud, active: active)
     Nerves.UART.configure(pid, framing: {Nerves.UART.Framing.Line, separator: "\r\n"}, rx_framing_timeout: 500)
     {:ok, pid}
   end
@@ -46,7 +46,8 @@ defmodule UartHandler do
 
   # WHEN A FULL SERIAL MESSAGE COMES IN.
   def handle_info({:nerves_uart, _tty, message}, state) do
-    SerialMessageManager.sync_notify({:serial_message, Gcode.parse_code(String.strip(message))})
+    gcode = Gcode.parse_code(String.strip(message))
+    SerialMessageManager.sync_notify({:gcode, gcode })
     {:noreply, state}
   end
 

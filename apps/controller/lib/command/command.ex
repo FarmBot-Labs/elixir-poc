@@ -5,6 +5,48 @@ defmodule Command do
   """
 
   @doc """
+    EMERGENCY STOP
+  """
+  def e_stop do
+    Logger.info("E STOP")
+    UartHandler.send("E") # Don't queue this one- write to serial line.
+    BotStatus.set_last(:emergency_stop)
+  end
+
+  @doc """
+    Home All
+  """
+  def home_all(_speed) do
+    Logger.info("HOME ALL")
+    BotStatus.set_pos(0,0,0) # I don't know if im supposed to do this?
+    SerialMessageManager.sync_notify( {:send, "G28"} )
+  end
+
+  @doc """
+    Home x
+  """
+  def home_x(_speed) do
+    Logger.info("HOME X")
+    SerialMessageManager.sync_notify( {:send, "F11"} )
+  end
+
+  @doc """
+    Home y
+  """
+  def home_y(_speed) do
+    Logger.info("HOME Y")
+    SerialMessageManager.sync_notify( {:send, "F12"} )
+  end
+
+  @doc """
+    Home z
+  """
+  def home_z(_speed) do
+    Logger.info("HOME Z")
+    SerialMessageManager.sync_notify( {:send, "F13"} )
+  end
+
+  @doc """
     Writes a pin high or low
   """
   def write_pin(pin, value, mode) do
@@ -18,58 +60,54 @@ defmodule Command do
   def move_absolute(x, y, z, _s) when x >= 0 and y >= 0 do
     Logger.info("MOVE_ABSOLUTE " <> "G00 X#{x} Y#{y} Z#{z}")
     SerialMessageManager.sync_notify( {:send, "G00 X#{x} Y#{y} Z#{z}"} )
+    BotStatus.set_pos(x,y,z)
   end
 
-  # MOVE RELATIVE X
-  defp handle_serial({"single_command.MOVE RELATIVE",
-                            %{"name" => "moveRelative",
-                              "speed" => speed,
-                              "x" => x } }) do
-    Logger.debug("MOVE RELATIVE X: #{x} SPEED: #{speed}")
-    SerialHandler.move_relative({:x, x}, speed)
+  # there must be a better way to do this lol
+  def move_absolute(x, y, z, s) when x <= 0 and y <= 0 do
+    move_absolute(0,0,z,s)
   end
 
-  # MOVE RELATIVE Y
-  defp handle_serial({"single_command.MOVE RELATIVE",
-                            %{"name" => "moveRelative",
-                              "speed" => speed,
-                              "y" => y } } ) do
-    Logger.debug("MOVE RELATIVE Y #{y} SPEED: #{speed}")
-    SerialHandler.move_relative({:y, y}, speed)
+  # when x is negative
+  def move_absolute(x, y, z, s) when x <= 0 do
+    move_absolute(0,y,z,s)
   end
 
-  # MOVE RELATIVE Z
-  defp handle_serial({"single_command.MOVE RELATIVE",
-                            %{"name" => "moveRelative",
-                              "speed" => speed,
-                              "z" => z } }) do
-    Logger.debug("MOVE RELATIVE Z: #{z} SPEED: #{speed}")
-    SerialHandler.move_relative({:z, z}, speed)
+  # when y is negative
+  def move_absolute(x, y, z, s) when y <= 0 do
+    move_absolute(x,0,z,s)
   end
 
-  # Possibly broke move relative command?
-  defp handle_serial({"single_command.MOVE RELATIVE", params}) do
-    Logger.debug("[broken?] MOVE RELATIVE : #{inspect params}")
+  def move_relative({:x, speed, move_by}) do
+    [x,y,z] = BotStatus.get_current_pos
+    move_absolute(x + move_by, y,z, speed)
   end
 
-  defp handle_serial({"single_command.MOVE ABSOLUTE", params}) do
-    Logger.debug("MOVE ABSOLUTE : #{inspect params}")
-    # %{"speed" => 100, "x" => 5000, "y" => 192000, "z" => -13000}
-    x = Map.get(params, "x")
-    y = Map.get(params, "y")
-    z = Map.get(params, "z")
-    s = Map.get(params, "speed")
-    SerialHandler.move_absolute(x,y,z,s)
+  def move_relative({:y, speed, move_by}) do
+    [x,y,z] = BotStatus.get_current_pos
+    move_absolute(x, y + move_by ,z, speed)
   end
 
-  # HOME ALL
-  defp handle_serial({"single_command.HOME ALL", params}) do
-    Logger.debug("HOME ALL : #{inspect params}")
-    SerialHandler.home_all
+  def move_relative({:z, speed, move_by}) do
+    [x,y,z] = BotStatus.get_current_pos
+    move_absolute(x, y, z + move_by, speed)
   end
 
-  # UNHANDLED SERIAL COMMAND
-  defp handle_serial({method, params}) do
-    Logger.debug("Unknown method: #{inspect method} with params: #{inspect params}")
+  def read_status(id \\ nil) do
+    current_status = BotStatus.get_status
+    [x,y,z] = BotStatus.get_current_pos
+    results = Map.merge(%{
+      busy: 0,
+      last: Map.get(current_status, :LAST),
+      method: "read_status",
+      s: Map.get(current_status, :S),
+      x: x,
+      y: y,
+      z: z}, Map.get(current_status, :PARAMS)) |> Map.merge(Map.get(current_status, :PINS))
+
+    message = %{id: id,
+            error: nil,
+            result: results}
+    MqttMessageManager.sync_notify( {:emit, Poison.encode!(message)} )
   end
 end

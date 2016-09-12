@@ -36,8 +36,8 @@ defmodule MqttMessageHandler do
   # Will probably get broken out to another GenEvent for serial events?
   defp do_handle_event({:on_message_received, _topic, umessage}) do
     message = Poison.decode!(umessage)
-    # Logger.debug "#{inspect(%{topic: topic, message: message})}"
-    CommandMessageManager.sync_notify({Map.get(message, "method"), Map.get(message, "params")})
+    # Logger.debug "#{inspect message}"
+    CommandMessageManager.sync_notify(message)
   end
 
   # Successful connection event. Subscribe to our bot.
@@ -45,9 +45,23 @@ defmodule MqttMessageHandler do
     Bus.Mqtt.subscribe(["bot/#{@uuid}/request"], [1])
   end
 
+  defp do_handle_event({:on_publish, _stuff}) do
+    nil
+  end
+
   # No real reason to print this but hey-oh
   defp do_handle_event({:on_subscribe, _data}) do
     Logger.debug "Subscribe Successful"
+  end
+
+  # I think ill remove this?
+  defp do_handle_event({:publish, topic, message, dup, qos, retain}) do
+    Logger.debug("Publishing: #{topic}, #{message}, #{dup}, #{qos}, #{retain}")
+    Bus.Message.publish(topic, message, dup, qos, retain)
+  end
+
+  defp do_handle_event({:emit, message}) do
+    Bus.Mqtt.publish("bot/#{@uuid}/response", message)
   end
 
   # Stub af. Thanks Elixir

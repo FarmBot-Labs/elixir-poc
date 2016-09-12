@@ -3,7 +3,7 @@ defmodule SerialSupervisor do
     import Supervisor.Spec
     children = [
       worker(SerialMessageManager, []),
-      worker(SerialMessageHandler, [], id: 1), # Consumer
+      worker(GcodeMessageHandler, [], id: 1), # Consumer
       worker(UartHandler, [[]])
     ]
     Supervisor.start_link(children, strategy: :one_for_one)

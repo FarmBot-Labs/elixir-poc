@@ -16,7 +16,7 @@ defmodule Controller.Mixfile do
 
   def application do
     [mod: {Controller, []},
-      applications: [:logger, :nerves_uart, :httpotion, :poison, :gen_stage, :bus]]
+      applications: [:logger, :nerves_uart, :httpotion, :poison, :gen_stage, :bus, :nerves_lib]]
   end
 
   defp deps do
@@ -25,6 +25,6 @@ defmodule Controller.Mixfile do
      {:poison, "~> 2.0"},
      {:bus, "~> 0.1.0"},
      {:gen_stage, "~> 0.4"},
-     {:yaml_elixir, "~> 1.2.1"}]
+     {:nerves_lib, github: "nerves-project/nerves_lib"}]
   end
 end

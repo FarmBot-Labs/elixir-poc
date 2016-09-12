@@ -44,8 +44,10 @@ defmodule Gcode do
   def parse_code("R31") do { :report_status_value } end
   def parse_code("R41") do { :report_pin_value } end
   def parse_code("R81 " <> params ) do { :reporting_end_stops, params } end
-  def parse_code("R82") do { :report_current_position } end
+  # def parse_code("R82") do { :report_current_position } end
+  def parse_code("R82 " <> position) do { :report_current_position, position } end
   def parse_code("R83") do { :report_software_version } end
-  def parse_code("R99") do { :debug_message } end
+  # def parse_code("R99") do { :debug_message } end
+  def parse_code("R99" <> message) do { :debug_message, message } end
   def parse_code(code)  do {:unhandled_gcode, code} end
 end
