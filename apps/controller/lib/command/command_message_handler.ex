@@ -59,6 +59,30 @@ defmodule CommandMessageHandler do
     Command.read_status(id)
   end
 
+  # Im getting tired, and can't tell the difference between these functions?
+  def do_handle(%{"id" => id,
+                  "method" => "exec_sequence",
+                  "params" => %{"color" => color,
+                                "id" => _param_id,
+                                "name" => name,
+                                "steps" => steps }}) do
+
+    Logger.debug("Execute sequence: #{id}, #{name}, #{color}")
+    SequenceManager.sync_notify({:exec_sequence, steps, id})
+  end
+
+
+  def do_handle(%{"id" => id,
+                  "method" => "exec_sequence",
+                  "params" => %{"color" => color,
+                                "dirty" => _dirty,
+                                "name" => name,
+                                "steps" => steps }}) do
+
+    Logger.debug("Execute sequence: #{id}, #{name}, #{color}")
+    SequenceManager.sync_notify({:exec_sequence, steps, id})
+  end
+
   # Unhandled event. Probably not implemented if it got this far.
   def do_handle(event) do
     Logger.debug("[command_handler] (Probably not implemented) Unhandled Event: #{inspect event}")

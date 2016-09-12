@@ -1,5 +1,5 @@
 defmodule CommandSupervisor do
-  def start_link(_args) do
+  def start_link(_) do
     import Supervisor.Spec
     children = [
       worker(CommandMessageManager, []),

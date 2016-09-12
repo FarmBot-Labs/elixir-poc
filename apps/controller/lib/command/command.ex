@@ -54,7 +54,8 @@ defmodule Command do
   @doc """
     Writes a pin high or low
   """
-  def write_pin(pin, value, mode, id \\ nil) do
+  def write_pin(pin, value, mode \\ "1", id \\ nil)
+  def write_pin(pin, value, mode, id) do
     Logger.info("WRITE_PIN " <> "F41 P#{pin} V#{value} M#{mode}")
     SerialMessageManager.sync_notify( {:send, "F41 P#{pin} V#{value} M#{mode}"} )
     BotStatus.set_pin(pin, value)
