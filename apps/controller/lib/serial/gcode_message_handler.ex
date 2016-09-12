@@ -39,6 +39,12 @@ defmodule GcodeMessageHandler do
     BotStatus.busy true
   end
 
+  def do_handle({:gcode, { :report_pin_value, params }}) do
+    ["P"<>pin, "V"<>value] = String.split(params, " ")
+    Logger.debug("pin#{pin}: #{value}")
+    BotStatus.set_pin(String.to_integer(pin), String.to_integer(value))
+  end
+
   # TODO report end stops
   def do_handle({:gcode, {:reporting_end_stops, end_stops }}) do
     Logger.debug("[gcode_handler] {:reporting_end_stops} stub: #{end_stops}")

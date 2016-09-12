@@ -45,14 +45,15 @@ defmodule BotStatus do
    {:noreply,new_status}
   end
 
-  def set_pin(pin, :on) when is_integer pin do
-    GenServer.cast(__MODULE__, {:set_pin, pin, :on})
+  # Sets the pin value in the bot's status
+  def set_pin(pin, value) when is_integer pin do
+    case value do
+      0 -> GenServer.cast(__MODULE__, {:set_pin, "pin"<>Integer.to_string(pin), :off})
+      _ -> GenServer.cast(__MODULE__, {:set_pin, "pin"<>Integer.to_string(pin), :on})
+    end
   end
 
-  def set_pin(pin, :off) when is_integer pin do
-    GenServer.cast(__MODULE__, {:set_pin, pin, :off})
-  end
-
+  # Gets the pin value from the bot's status
   def get_pin(pin) when is_integer pin do
     GenServer.call(__MODULE__, {:get_pin, pin})
   end
@@ -117,37 +118,5 @@ defmodule BotStatus do
         movement_timeout_y: 30,
         movement_timeout_z: 30,
         param_version: 0 }
-        Map
   end
-
-  def get_pins do
-    %{
-      pin0: "off",
-      pin1: "off",
-      pin10: "on",
-      pin11: "on",
-      pin12: "on",
-      pin13: "on",
-      pin2: "on",
-      pin3: "on",
-      pin4: "on",
-      pin5: "on",
-      pin6: "on",
-      pin7: "on",
-      pin8: "on",
-      pin9: "on"
-    }
-  end
-
-  #
-  # def set_pin(num, val) do
-  #   val = [true, 1, '1'].include?(val) ? :on : :off
-  #   transaction { |info| info.PINS[num] = val }
-  # end
-  #
-  # def set_parameter(key, val) do
-  #   transaction do |info|
-  #     info[Gcode::PARAMETER_DICTIONARY.fetch(key,
-  #       "UNKNOWN_PARAMETER_#{key}".to_sym)] = val
-  # end
 end
