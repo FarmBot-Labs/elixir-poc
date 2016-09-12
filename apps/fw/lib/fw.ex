@@ -4,8 +4,7 @@ defmodule Fw do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    SerialHandler.start_link
-    MqttSupervisor.start
+    {:ok, _pid} = Networking.setup :eth0
     import Supervisor.Spec, warn: false
 
     # Define workers and child supervisors to be supervised
