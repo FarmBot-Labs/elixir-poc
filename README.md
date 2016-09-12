@@ -8,7 +8,7 @@ Ok, Heres the deal. There are currently two elixir "apps" here. Yes the names ar
 pretty much nothing. It is just a stub for a Nerves application. (it actually works lul)
 
 ## controller
-This is a psuedo port of farmbot-raspberrypi-controller. There are three parts of this controller application so far: 
+This is a psuedo port of farmbot-raspberrypi-controller. 
 
 ### mqtt
 This is what handles the mqtt messages, and dirrects them accordingly.
@@ -19,30 +19,39 @@ This handles serial connection and dirrects them accordingly.
 ### command (the name here is inaccurate)
 This handles incoming and outgoing 'commands' from serial and mqtt. I THINK serial and mqtt shouldn't ever talk directly to eachother?
 
+### bot_status
+This is basically the bot state.
 
-## What is working? 
-* mqtt message passing
-* serial message passing
-* pin writes!!!!!!!! :+1:
+### sequence
+Still needs a ton of work. Almost zero error checking. Handles sequences. Tested with the "Test" button on the gui.
+
+
+## What is working?
+* Mqtt
+* Serial
+* Bot state
 
 ## What isn't working?
-* Database storage
-* bot state
-* schedules/sequences/regimens
-* bot configuration
-* initial startup (rpi controller bootstrap)
-* tokens 
-* uh
-* anything?
-* help me 
+* token generation
+* callibration
+* end stop reporting
+* syncing
+* probably a bunch of other stuff
+* tests (exUnit) < !!!!
+
+
+## Partial working
+* Sequences (wait, pin write, move absolute)
+* Initial bootup. (pins work, initial params dont)
+
 
 # WHY EVEN MAKE THIS?
-We were having some cute segfaults. Probably solved but I really like Elixir, and It's just kind of fun. 
+We were having some cute segfaults. Probably solved but I really like Elixir, and It's just kind of fun.
 
 # HOW CAN I RUN IT??????
 * You will need an [MQTT Broker](https://github.com/farmbot/mqtt-gateway) running locally.
 * Then you will need to have a development instance of [The API](https://github.com/farmbot/Farmbot-web-API) running locally.
-* install [Elixir](http://elixir-lang.org/) 
+* install [Elixir](http://elixir-lang.org/)
 
 open a new terminal for the API
 ``` bash
@@ -50,7 +59,7 @@ git clone https://github.com/farmbot/Farmbot-web-API
 cd Farmbot-web-API
 bundle install
 rake db:setup
-MQTT_HOST=localhost rails S 
+MQTT_HOST=localhost rails S
 ```
 
 now open a new terminal and start teh mqtt Broker
