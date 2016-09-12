@@ -65,7 +65,7 @@ defmodule Command do
   @doc """
     Moves to (x,y,z) point
   """
-  def move_absolute(x,y,z,s,id \\ nil)
+  def move_absolute(x \\ 0,y \\ 0,z \\ 0,s \\ 100, id \\ nil)
   def move_absolute(x, y, z, _s, id) when x >= 0 and y >= 0 do
     Logger.info("MOVE_ABSOLUTE " <> "G00 X#{x} Y#{y} Z#{z}")
     SerialMessageManager.sync_notify( {:send, "G00 X#{x} Y#{y} Z#{z}"} )

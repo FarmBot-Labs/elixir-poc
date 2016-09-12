@@ -33,9 +33,13 @@ defmodule Sequence do
 
   # Pattern match available commands
   def add_step(step,id \\ nil)
-  def add_step(%{"command" => %{"speed" => speed, "stub" => _stub, "x" => xpos,
-                "y" => ypos, "z" => zpos}, "message_type" => "move_absolute",
-                "position" => _position}, id) when xpos >= 0 and ypos >= 0 do
+  def add_step(%{"command" => command, "message_type" => "move_absolute",
+                "position" => _position}, id) do
+    #TODO: i think this would allow negative numbers
+    xpos = Map.get(command, "x", nil)
+    ypos = Map.get(command, "y", nil)
+    zpos = Map.get(command, "z", nil)
+    speed = Map.get(command, "speed", nil)
     GenServer.cast(__MODULE__, {:add_step, fn -> Command.move_absolute(xpos,ypos,zpos,speed, id) end})
   end
 

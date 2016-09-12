@@ -83,6 +83,10 @@ defmodule CommandMessageHandler do
     SequenceManager.sync_notify({:exec_sequence, steps, id})
   end
 
+  def do_handle(%{"id" => _id, "method" => "sync_sequence", "params" => _params}) do
+    Logger.debug("sync_sequence request. I don't know what this message is for?")
+  end
+
   # Unhandled event. Probably not implemented if it got this far.
   def do_handle(event) do
     Logger.debug("[command_handler] (Probably not implemented) Unhandled Event: #{inspect event}")
