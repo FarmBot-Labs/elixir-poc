@@ -42,7 +42,8 @@ defmodule MqttMessageHandler do
 
   # Successful connection event. Subscribe to our bot.
   defp do_handle_event({:on_connect, _data}) do
-    Bus.Mqtt.subscribe(["bot/#{@uuid}/request"], [1])
+    cb = fn(message) -> nil end
+    Bus.Mqtt.subscribe(["bot/#{@uuid}/request"], [1], cb )
   end
 
   defp do_handle_event({:on_publish, _stuff}) do
@@ -61,7 +62,8 @@ defmodule MqttMessageHandler do
   end
 
   defp do_handle_event({:emit, message}) do
-    Bus.Mqtt.publish("bot/#{@uuid}/response", message)
+    cb = fn(message) -> nil end
+    Bus.Mqtt.publish("bot/#{@uuid}/response", message, cb, 1)
   end
 
   # Stub af. Thanks Elixir

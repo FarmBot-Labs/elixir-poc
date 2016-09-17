@@ -23,8 +23,7 @@ defmodule Controller.Mixfile do
     [{:nerves_uart, "~> 0.1.0"},
      {:httpotion, "~> 3.0.0"},
      {:poison, "~> 2.0"},
-    #  {:bus, "~> 0.1.0"},
-     {:bus, github: "i-m-v-j/Bus", tag: "47dfdad3653841346b1f43c02ed3235a091f5686"},
+     {:bus, "~> 0.1.4"},
      {:gen_stage, "~> 0.4"},
      {:nerves_lib, github: "nerves-project/nerves_lib"}]
   end

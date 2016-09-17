@@ -1,4 +1,4 @@
-%{"bus": {:git, "https://github.com/i-m-v-j/Bus.git", "47dfdad3653841346b1f43c02ed3235a091f5686", [tag: "47dfdad3653841346b1f43c02ed3235a091f5686"]},
+%{"bus": {:hex, :bus, "0.1.4", "52ae883734ae94badc7c01a7884f9c5a9040d7e8eda63a321b04746764a8e09e", [:mix], []},
   "elixir_make": {:hex, :elixir_make, "0.3.0", "285147fa943806eee82f6680b7b446b5569bcf3ee8328fa0a7c200ffc44fbaba", [:mix], []},
   "gen_stage": {:hex, :gen_stage, "0.5.0", "758068f3a81286e342a609d668e9624714c2e4d43cc26699ead04d1680fde6c6", [:mix], []},
   "httpotion": {:hex, :httpotion, "3.0.1", "6165e7fe4052dfeadd4b480e4ed6619975242ac91d577e4868af92613f9e99df", [:mix], [{:ibrowse, "~> 4.2", [hex: :ibrowse, optional: false]}]},

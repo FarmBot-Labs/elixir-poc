@@ -1,4 +1,5 @@
-defmodule Bus.Callback do
+defmodule Mqtt.Callback do
+  require Logger
   @moduledoc """
     This is just a redefine of the callback module (Thanks Bus for being a normal
     Elixir application..)
@@ -19,6 +20,7 @@ defmodule Bus.Callback do
 
     def on_error(data) do
       MqttMessageManager.sync_notify {:on_error, data}
+      Logger.debug("error: #{inspect data}")
     end
 
     def on_subscribe(data) do

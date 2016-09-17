@@ -11,7 +11,6 @@ defmodule UartHandler do
   end
 
   def start_link(_) do
-    Logger.debug("Starting Nerves Uart")
     GenServer.start_link(__MODULE__, {}, name: __MODULE__)
   end
 
@@ -19,7 +18,6 @@ defmodule UartHandler do
     GenServer.call(__MODULE__, {:get_state})
   end
 
-  # UartHandler.connect("/dev/ttyACM0", 115200)
   def connect(tty, baud, active \\ true) do
     GenServer.cast(__MODULE__, {:connect, tty, baud, active})
   end
