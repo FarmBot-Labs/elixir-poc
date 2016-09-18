@@ -73,6 +73,6 @@ defmodule MqttMessageHandler do
   end
 
   defp bot do
-    Auth.get_token |> Map.get(:token) |> Map.get("unencoded") |> Map.get("bot")
+    Controller.fetch_token |> Map.get("unencoded") |> Map.get("bot")
   end
 end

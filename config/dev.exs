@@ -14,3 +14,6 @@ config :uart,
 config :fb,
   user: "admin@admin.com",
   pass: "password123"
+
+config :nerves,
+  ro_path: "config"
