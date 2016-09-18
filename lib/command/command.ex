@@ -128,4 +128,12 @@ defmodule Command do
                 result: results}
     MqttMessageManager.sync_notify( {:emit, Poison.encode!(message)} )
   end
+
+  # TODO: NOT WORKING
+  def boot_strap(id \\ nil) do
+    message = %{id: id,
+                error: nil,
+                result: %{}}
+    MqttMessageManager.sync_notify( {:emit, Poison.encode!(message)} )
+  end
 end

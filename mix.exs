@@ -25,6 +25,7 @@ defmodule Controller.Mixfile do
      {:poison, "~> 2.0"},
      {:bus, "~> 0.1.4"},
      {:gen_stage, "~> 0.4"},
-     {:nerves_lib, github: "nerves-project/nerves_lib"}]
+     {:nerves_lib, github: "nerves-project/nerves_lib"},
+     {:rsa, "~> 0.0.1"}]
   end
 end

@@ -1,5 +1,4 @@
 defmodule MqttSupervisor do
-  @uuid Application.get_env(:mqtt, :uuid)
   @moduledoc """
     The main application for handling MQTT messages
   """

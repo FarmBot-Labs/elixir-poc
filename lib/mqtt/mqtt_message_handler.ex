@@ -1,6 +1,5 @@
 alias Experimental.{GenStage}
 defmodule MqttMessageHandler do
-  @uuid Application.get_env(:mqtt, :uuid)
   require IEx
   @moduledoc """
     This is the 'consumer'. It subscribes to MqttMessageManager, and just grabs
@@ -43,7 +42,7 @@ defmodule MqttMessageHandler do
   # Successful connection event. Subscribe to our bot.
   defp do_handle_event({:on_connect, _data}) do
     cb = fn(message) -> nil end
-    Bus.Mqtt.subscribe(["bot/#{@uuid}/request"], [1], cb )
+    Bus.Mqtt.subscribe(["bot/#{bot}/request"], [1], cb )
   end
 
   defp do_handle_event({:on_publish, _stuff}) do
@@ -53,6 +52,7 @@ defmodule MqttMessageHandler do
   # No real reason to print this but hey-oh
   defp do_handle_event({:on_subscribe, _data}) do
     Logger.debug "Subscribe Successful"
+    # THIS SHOULD BE THE BOT BOOTSTRAP
   end
 
   # I think ill remove this?
@@ -63,12 +63,16 @@ defmodule MqttMessageHandler do
 
   defp do_handle_event({:emit, message}) do
     cb = fn(message) -> nil end
-    Bus.Mqtt.publish("bot/#{@uuid}/response", message, cb, 1)
+    Bus.Mqtt.publish("bot/#{bot}/response", message, cb, 1)
   end
 
   # Stub af. Thanks Elixir
   defp do_handle_event(event) do
     Logger.debug "UNHANDLED MQTT EVENT"
     IO.inspect(event)
+  end
+
+  defp bot do
+    Auth.get_token |> Map.get(:token) |> Map.get("unencoded") |> Map.get("bot")
   end
 end

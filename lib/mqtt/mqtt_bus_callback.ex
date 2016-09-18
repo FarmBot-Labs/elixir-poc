@@ -19,8 +19,8 @@ defmodule Mqtt.Callback do
     end
 
     def on_error(data) do
-      MqttMessageManager.sync_notify {:on_error, data}
       Logger.debug("error: #{inspect data}")
+      MqttMessageManager.sync_notify {:on_error, data}
     end
 
     def on_subscribe(data) do
